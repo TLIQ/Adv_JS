@@ -16,10 +16,10 @@ const app = new Vue({
   methods: {
     request(url) {
       return fetch(`${API}/${url}`)
-        .then(result => result.json())
-        .catch(error => {
-          console.log(error)
-        });
+          .then(result => result.json())
+          .catch(error => {
+            console.log(error)
+          });
     },
 
     addToCart(product) {
@@ -29,6 +29,7 @@ const app = new Vue({
       } else {
         let newProduct = Object.assign({quantity: 1}, product);
         this.productsInCart.push(newProduct);
+
       }
     },
 
@@ -41,9 +42,8 @@ const app = new Vue({
         return false;
       }
     },
-    filterProduct(string){
-      this.isFilterOn = true;
-      const regexp = new RegExp(string, 'i');
+    filterProduct(){
+      const regexp = new RegExp(this.searchString, 'i');
       this.filteredProducts = this.products.filter(good => regexp.test(good.product_name));
     },
 
@@ -77,16 +77,18 @@ const app = new Vue({
   },
   mounted() {
     this.request('catalogData.json')
-      .then(data => {
-        for (let el of data) {
-          this.products.push(el);
-        }
-      });
+        .then(data => {
+          for (let el of data) {
+            this.products.push(el);
+            this.filteredProducts.push(el);
+
+          }
+        });
     this.request('getBasket.json')
-      .then(data => {
-        for (let el of data['contents']) {
-          this.productsInCart.push(el);
-        }
-      });
+        .then(data => {
+          for (let el of data['contents']) {
+            this.productsInCart.push(el);
+          }
+        });
   }
 });

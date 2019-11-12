@@ -11,27 +11,27 @@
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
-            <form v-on:submit.prevent="filterProduct(searchString)" class="search-form">
-                <input class="search-field" type="text" v-model="searchString" placeholder="Search">
+            <form class="search-form">
+                <input class="search-field" type="text" v-model="searchString" @input="filterProduct" placeholder="Search">
                 <button class="btn-search" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
             <button @click="showCart = !showCart" class="btn-cart" type="button">Корзина
                 {{ calculateCartQuantity ? 'Товаров: ' + calculateCartQuantity +
-              ' на сумму: ' + calculateCartSum  : 'Корзина пуста'}}</button>
+                ' на сумму: ' + calculateCartSum  : 'Корзина пуста'}}</button>
         </div>
-            
+
     </header>
     <main>
         <div class="products">
-            <div class="product-item" v-for="product of products" :key="product.id_product">
+            <div class="product-item" v-for="product of filteredProducts" :key="product.id_product">
                 <img :src="imgCatalog" alt="Some img">
                 <div class="desc">
                     <h3>{{product.product_name}}</h3>
                     <p>{{product.price}} $</p>
                     <button @click="addToCart(product)" class="cart-button btn btn-primary" :data-id="product.id_product"
-                      type="submit">Купить</button>
+                            type="submit">Купить</button>
                 </div>
             </div>
         </div>
